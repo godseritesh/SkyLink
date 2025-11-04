@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sky-Link Flight Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .app-header {
+            width: 100vw;
+            background: #1a237e;
+            color: #fff;
+            padding: 18px 0 12px 0;
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(26,35,126,0.08);
+            margin-bottom: 0;
+        }
+        .logo {
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 900;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+        }
+        .airport-board {
+            margin-bottom: 32px;
+        }
+        .flight-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #f5f5f5;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .flight-table th, .flight-table td {
+            padding: 10px 8px;
+            text-align: center;
+        }
+        .flight-table th {
+            background: #1976d2;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+        .flight-table tr:nth-child(even) { background: #e3f2fd; }
+        .flight-table tr:nth-child(odd) { background: #fff; }
+        .flight-table td.status-on-time { color: #388e3c; font-weight: 700; }
+        .flight-table td.status-delayed { color: #fbc02d; font-weight: 700; }
+        .flight-table td.status-cancelled { color: #b71c1c; font-weight: 700; }
+        .flight-table .book-btn {
+            background: #43a047;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 14px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .flight-table .book-btn:disabled {
+            background: #bdbdbd;
+            cursor: not-allowed;
+        }
+        .booking-section {
+            margin-top: 24px;
+        }
+        .back-btn {
+            margin: 18px auto 0 auto;
+            display: block;
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background: #0d47a1;
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(120deg, #e0eafc, #cfdef3 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 40px 40px 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #1a237e;
+            margin-bottom: 16px;
+        }
+        .flight-form {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .flight-form input {
+            padding: 8px 12px;
+            border: 1px solid #bdbdbd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .flight-form button {
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .flight-form button:hover {
+            background: #0d47a1;
+        }
+        .flight-info {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            color: #333;
+        }
+        .seat-map {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .seat-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .seat {
+            width: 38px;
+            height: 38px;
+            background: #e3f2fd;
+            border: 2px solid #90caf9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, border 0.2s;
+            user-select: none;
+        }
+        .seat.booked {
+            background: #bdbdbd;
+            color: #fff;
+            border: 2px solid #bdbdbd;
+            cursor: not-allowed;
+        }
+        .seat.selected {
+            background: #1976d2;
+            color: #fff;
+            border: 2px solid #1976d2;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.98rem;
+        }
+        .legend-box {
+            width: 22px;
+            height: 22px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .legend-available { background: #e3f2fd; border: 2px solid #90caf9; }
+        .legend-booked { background: #bdbdbd; border: 2px solid #bdbdbd; }
+        .legend-selected { background: #1976d2; border: 2px solid #1976d2; }
+        .booking-form {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .booking-form input {
+            padding: 8px 12px;
+            border: 1px solid #bdbdbd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .booking-form button {
+            background: #43a047;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .booking-form button:hover {
+            background: #2e7d32;
+        }
+        .result {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <span class="logo">✈️ SkyLink</span>
+    </header>
+    <div class="container">
+        <div class="airport-board">
+            <h2>Live Flight Schedule</h2>
+            <table class="flight-table" id="flightTable">
+                <thead>
+                    <tr>
+                        <th>Flight</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Departure</th>
+                        <th>Seats</th>
+                        <th>Status</th>
+                        <th>Book</th>
+                    </tr>
+                </thead>
+                <tbody id="flightTableBody"></tbody>
+            </table>
+        </div>
+        <div class="booking-section" id="bookingSection" style="display:none;">
+            <div class="flight-info" id="flightInfo"></div>
+            <div class="legend">
+                <div class="legend-item"><span class="legend-box legend-available"></span> Available</div>
+                <div class="legend-item"><span class="legend-box legend-booked"></span> Booked</div>
+                <div class="legend-item"><span class="legend-box legend-selected"></span> Selected</div>
+            </div>
+            <div class="seat-map" id="seats"></div>
+            <form class="booking-form" onsubmit="event.preventDefault(); bookSeat();">
+                <input id="passengerName" placeholder="Your Name">
+                <button type="submit">Book Selected Seat</button>
+            </form>
+            <div class="result" id="result"></div>
+            <button class="back-btn" onclick="showSchedule()">Back to Schedule</button>
+        </div>
+    </div>
+    <script>
+        let selectedSeat = null;
+        let flight = null;
+        function loadFlight() {
+            const num = document.getElementById('flightNumber').value;
+            fetch(`/api/flight/${num}`)
+                .then(r => r.json())
+                .then(f => {
+                    flight = f;
+                    document.getElementById('flightInfo').innerHTML = f.flightNumber ?
+                        `<b>Flight:</b> ${f.flightNumber} | <b>${f.origin}</b> → <b>${f.destination}</b>` :
+                        '<span style="color:#b71c1c">Flight not found.</span>';
+                    renderSeats(f.seats);
+                });
+        }
+        function renderSeats(seatsObj) {
+            const seatMap = document.getElementById('seats');
+            seatMap.innerHTML = '';
+            if (!seatsObj) return;
+            const seats = Object.values(seatsObj);
+            // Assume 10 seats per row for layout
+            for (let row = 0; row < 10; row++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'seat-row';
+                for (let col = 1; col <= 10; col++) {
+                    const idx = row * 10 + col - 1;
+                    if (idx >= seats.length) break;
+                    const seat = seats[idx];
+                    const seatEl = document.createElement('div');
+                    seatEl.className = 'seat' + (seat.booked ? ' booked' : '') + (selectedSeat === seat.seatNumber ? ' selected' : '');
+                    seatEl.textContent = seat.seatNumber;
+                    seatEl.onclick = () => selectSeat(seat.seatNumber, seat.booked);
+                    rowDiv.appendChild(seatEl);
+                }
+                seatMap.appendChild(rowDiv);
+            }
+        }
+        function selectSeat(seatNumber, booked) {
+            if (booked) return;
+            if (selectedSeat && document.querySelector('.seat.selected')) {
+                document.querySelector('.seat.selected').classList.remove('selected');
+            }
+            selectedSeat = seatNumber;
+            const el = Array.from(document.getElementsByClassName('seat')).find(e => e.textContent === seatNumber);
+            if (el) el.classList.add('selected');
+        }
+        function bookSeat() {
+            if (!selectedSeat) { showResult('Select a seat!', false); return; }
+            const name = document.getElementById('passengerName').value;
+            if (!name) { showResult('Enter your name!', false); return; }
+            fetch('/api/book', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    flightNumber: flight.flightNumber,
+                    seatNumber: selectedSeat,
+                    passengerName: name
+                })
+            })
+            .then(r => r.json())
+            .then(res => {
+                showResult(res.success ? 'Booking successful!' : 'Booking failed!', res.success);
+                loadFlight();
+            });
+        }
+        function showResult(msg, success) {
+            const result = document.getElementById('result');
+            result.textContent = msg;
+            result.style.color = success ? '#388e3c' : '#b71c1c';
+        }
+        // Auto-load default flight
+        loadFlight();
+    </script>
+</body>
+</html>

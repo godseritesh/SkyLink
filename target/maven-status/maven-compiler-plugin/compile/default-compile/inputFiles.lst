@@ -1,5 +1,8 @@
-E:\tes2\src\main\java\com\skylink\BookingManager.java
-E:\tes2\src\main\java\com\skylink\SkyLinkApp.java
-E:\tes2\src\main\java\com\skylink\Flight.java
-E:\tes2\src\main\java\com\skylink\Seat.java
-E:\tes2\src\main\java\com\skylink\SkyLinkServer.java
+/Users/ritesh.godse/Development/test/SkyLink/src/main/java/com/skylink/Booking.java
+/Users/ritesh.godse/Development/test/SkyLink/src/main/java/com/skylink/SkyLinkServer.java
+/Users/ritesh.godse/Development/test/SkyLink/src/main/java/com/skylink/BookingManager.java
+/Users/ritesh.godse/Development/test/SkyLink/src/main/java/com/skylink/SeatDTO.java
+/Users/ritesh.godse/Development/test/SkyLink/src/main/java/com/skylink/SkyLinkApp.java
+/Users/ritesh.godse/Development/test/SkyLink/src/main/java/com/skylink/Seat.java
+/Users/ritesh.godse/Development/test/SkyLink/src/main/java/com/skylink/FlightDTO.java
+/Users/ritesh.godse/Development/test/SkyLink/src/main/java/com/skylink/Flight.java

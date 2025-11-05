@@ -11,7 +11,7 @@ public class SkyLinkApp {
 
         int parallelBookings = 120;
         ExecutorService executor = Executors.newFixedThreadPool(20);
-        List<Future<Boolean>> results = new ArrayList<>();
+        List<Future<BookingManager.BookingResult>> results = new ArrayList<>();
 
         for (int i = 1; i <= parallelBookings; i++) {
             final String seatNum = String.format("%03d", (i % 100) + 1);
@@ -20,9 +20,9 @@ public class SkyLinkApp {
         }
 
         int success = 0, fail = 0;
-        for (Future<Boolean> result : results) {
+        for (Future<BookingManager.BookingResult> result : results) {
             try {
-                if (result.get()) success++;
+                if (result.get().success()) success++;
                 else fail++;
             } catch (Exception e) {
                 fail++;

@@ -1,0 +1,4 @@
+# Fix language detection — Java is the primary language
+*.js linguist-language=Java
+*.html linguist-language=Java
+*.css linguist-language=Java

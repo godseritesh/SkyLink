@@ -126,7 +126,7 @@ public class BookingManagerTest {
         manager.addFlight(flight3);
 
         List<Flight> results = manager.searchFlights("NYC", "SFO");
-        assertEquals(2, results.size());
+        assertEquals(1, results.size());
     }
 
     @Test

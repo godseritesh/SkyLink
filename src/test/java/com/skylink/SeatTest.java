@@ -45,5 +45,32 @@ public class SeatTest {
     void testCancelUnbookedSeat() {
         assertFalse(seat.cancel());
     }
-}
 
+    @Test
+    void testBookUnbookedSeat() {
+        assertFalse(seat.isBooked());
+        assertNull(seat.getPassengerName());
+        assertTrue(seat.book("Alice"));
+        assertTrue(seat.isBooked());
+        assertEquals("Alice", seat.getPassengerName());
+    }
+
+    @Test
+    void testCancelBookedSeat() {
+        seat.book("Bob");
+        assertTrue(seat.cancel());
+        assertFalse(seat.isBooked());
+        assertNull(seat.getPassengerName());
+    }
+
+    @Test
+    void testBookAndCancelBookedSeat() {
+        seat.book("Charlie");
+        assertTrue(seat.cancel());
+        assertFalse(seat.isBooked());
+        assertNull(seat.getPassengerName());
+        assertTrue(seat.book("David"));
+        assertTrue(seat.isBooked());
+        assertEquals("David", seat.getPassengerName());
+    }
+}

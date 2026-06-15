@@ -106,5 +106,71 @@ public class BookingManagerTest {
         List<Flight> allFlights = manager.getAllFlights();
         assertEquals(2, allFlights.size());
     }
-}
 
+    @Test
+    void testAddMultipleFlights() {
+        Flight flight2 = new Flight("SKY456", "NYC", "SFO", new Date(), 252);
+        Flight flight3 = new Flight("SKY789", "LAX", "SFO", new Date(), 252);
+        manager.addFlight(flight2);
+        manager.addFlight(flight3);
+
+        List<Flight> allFlights = manager.getAllFlights();
+        assertEquals(3, allFlights.size());
+    }
+
+    @Test
+    void testSearchFlightsWithMultipleResults() {
+        Flight flight2 = new Flight("SKY456", "NYC", "SFO", new Date(), 252);
+        Flight flight3 = new Flight("SKY789", "LAX", "SFO", new Date(), 252);
+        manager.addFlight(flight2);
+        manager.addFlight(flight3);
+
+        List<Flight> results = manager.searchFlights("NYC", "SFO");
+        assertEquals(2, results.size());
+    }
+
+    @Test
+    void testSearchFlightsWithNoResults() {
+        Flight flight2 = new Flight("SKY456", "NYC", "SFO", new Date(), 252);
+        manager.addFlight(flight2);
+
+        List<Flight> results = manager.searchFlights("LAX", "SFO");
+        assertEquals(0, results.size());
+    }
+
+    @Test
+    void testRequestBookingWithMultipleSeats() {
+        BookingManager.BookingResult result = manager.requestBooking("SKY123", "01A", "John Doe");
+        assertTrue(result.success());
+        assertNotNull(result.booking());
+        assertEquals("SKY123", result.booking().getFlightNumber());
+        assertEquals("01A", result.booking().getSeatNumber());
+        assertEquals("John Doe", result.booking().getPassengerName());
+
+        result = manager.requestBooking("SKY123", "01B", "Jane Doe");
+        assertTrue(result.success());
+        assertNotNull(result.booking());
+        assertEquals("SKY123", result.booking().getFlightNumber());
+        assertEquals("01B", result.booking().getSeatNumber());
+        assertEquals("Jane Doe", result.booking().getPassengerName());
+    }
+
+    @Test
+    void testCancelMultipleBookings() {
+        BookingManager.BookingResult result1 = manager.requestBooking("SKY123", "01A", "John Doe");
+        BookingManager.BookingResult result2 = manager.requestBooking("SKY123", "01B", "Jane Doe");
+
+        String bookingId1 = result1.booking().getBookingId();
+        String bookingId2 = result2.booking().getBookingId();
+
+        assertTrue(manager.cancelBooking(bookingId1));
+        assertTrue(manager.cancelBooking(bookingId2));
+
+        assertNull(manager.getBooking(bookingId1));
+        assertNull(manager.getBooking(bookingId2));
+
+        // Seats should be available again
+        assertFalse(flight.getSeat("01A").isBooked());
+        assertFalse(flight.getSeat("01B").isBooked());
+    }
+}

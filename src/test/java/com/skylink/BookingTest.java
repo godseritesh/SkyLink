@@ -34,9 +34,10 @@ public class BookingTest {
 
     @Test
     void testBookingCancellation() {
-        Booking booking = new Booking("CANCEL123", "001", "Alice Smith", true);
+        Booking booking = new Booking("CANCEL123", "SKY123", "001", "Alice Smith", new Date(), true);
         
         assertEquals("CANCEL123", booking.getBookingId());
+        assertEquals("SKY123", booking.getFlightNumber());
         assertEquals("001", booking.getSeatNumber());
         assertEquals("Alice Smith", booking.getPassengerName());
         assertTrue(booking.isCancelled());

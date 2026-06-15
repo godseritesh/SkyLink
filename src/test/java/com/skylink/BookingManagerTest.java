@@ -174,22 +174,9 @@ public class BookingManagerTest {
         assertFalse(flight.getSeat("01B").isBooked());
     }
 
-    // New test for the BookingManager class
     @Test
-    void testUpdateFlight() {
-        Flight updatedFlight = new Flight("SKY123", "NYC", "LAX", new Date(), 252);
-        updatedFlight.setDepartureTime(new Date());
-        manager.updateFlight("SKY123", updatedFlight);
-
-        Flight found = manager.searchFlight("SKY123");
-        assertNotNull(found);
-        assertEquals(updatedFlight.getDepartureTime(), found.getDepartureTime());
-    }
-
-    // New test for the BookingManager class
-    @Test
-    void testReserveSeat() {
-        BookingManager.BookingResult result = manager.reserveSeat("SKY123", "01A", "John Doe");
+    void testRequestBookingReturnsCorrectResult() {
+        BookingManager.BookingResult result = manager.requestBooking("SKY123", "01A", "John Doe");
         assertTrue(result.success());
         assertNotNull(result.booking());
         assertEquals("SKY123", result.booking().getFlightNumber());

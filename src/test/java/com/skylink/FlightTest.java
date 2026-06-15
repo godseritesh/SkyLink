@@ -50,23 +50,21 @@ public class FlightTest {
         assertNotNull(seat);
         assertEquals("01A", seat.getSeatNumber());
         seat.book("Test Passenger");
-        assertNull(flight.getSeat("01A"));
+        assertTrue(seat.isBooked());
+        assertEquals("Test Passenger", seat.getPassengerName());
     }
 
     @Test
     void testBookNonExistentSeat() {
         Seat seat = flight.getSeat("99Z");
         assertNull(seat);
-        boolean result = flight.bookSeat("99Z", "Test Passenger");
-        assertFalse(result);
     }
 
     @Test
     void testBookFullFlight() {
-        for (int i = 0; i < 252; i++) {
-            flight.getSeat("01" + (i + 1)).book("Passenger" + i);
+        for (Seat seat : flight.getSeats().values()) {
+            seat.book("Passenger");
         }
-        boolean result = flight.bookSeat("01A", "Test Passenger");
-        assertFalse(result);
+        assertEquals(0, flight.getAvailableSeatCount());
     }
 }

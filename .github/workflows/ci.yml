@@ -77,3 +77,6 @@ jobs:
 
       - name: Run New Test
         run: mvn test -Dtest=NewTestSuite
+
+      - name: Run Existing Tests
+        run: mvn test

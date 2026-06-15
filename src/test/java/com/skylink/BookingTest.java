@@ -55,4 +55,14 @@ public class BookingTest {
         assertEquals(futureDate, booking.getBookingDate());
         assertFalse(booking.isCancelled());
     }
+
+    @Test
+    void testBookingWithInvalidSeatNumber() {
+        try {
+            new Booking("INVALID123", "SKY123", "ZZZ", "Invalid Passenger");
+            fail("Expected IllegalArgumentException for invalid seat number");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Invalid seat number: ZZZ", e.getMessage());
+        }
+    }
 }

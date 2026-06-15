@@ -31,5 +31,29 @@ public class BookingTest {
         assertEquals(date, booking.getBookingDate());
         assertFalse(booking.isCancelled());
     }
-}
 
+    @Test
+    void testBookingCancellation() {
+        Booking booking = new Booking("CANCEL123", "SKY123", "001", "Alice Smith", new Date(), true);
+        
+        assertEquals("CANCEL123", booking.getBookingId());
+        assertEquals("SKY123", booking.getFlightNumber());
+        assertEquals("001", booking.getSeatNumber());
+        assertEquals("Alice Smith", booking.getPassengerName());
+        assertTrue(booking.isCancelled());
+        assertNotNull(booking.getBookingDate());
+    }
+
+    @Test
+    void testBookingWithFutureDate() {
+        Date futureDate = new Date(System.currentTimeMillis() + 10000);
+        Booking booking = new Booking("FUTURE123", "SKY789", "003", "Bob Johnson", futureDate, false);
+        
+        assertEquals("FUTURE123", booking.getBookingId());
+        assertEquals("SKY789", booking.getFlightNumber());
+        assertEquals("003", booking.getSeatNumber());
+        assertEquals("Bob Johnson", booking.getPassengerName());
+        assertEquals(futureDate, booking.getBookingDate());
+        assertFalse(booking.isCancelled());
+    }
+}

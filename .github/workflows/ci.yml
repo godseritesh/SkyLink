@@ -74,3 +74,6 @@ jobs:
                 });
               }
             }
+
+      - name: Run New Test
+        run: mvn test -Dtest=NewTestSuite

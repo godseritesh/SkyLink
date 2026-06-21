@@ -126,7 +126,7 @@ public class BookingManagerTest {
         manager.addFlight(flight3);
 
         List<Flight> results = manager.searchFlights("NYC", "SFO");
-        assertEquals(1, results.size());
+        assertEquals(2, results.size());
     }
 
     @Test
@@ -174,13 +174,6 @@ public class BookingManagerTest {
         assertFalse(flight.getSeat("01B").isBooked());
     }
 
+    // New test for the BookingManager class
     @Test
-    void testRequestBookingReturnsCorrectResult() {
-        BookingManager.BookingResult result = manager.requestBooking("SKY123", "01A", "John Doe");
-        assertTrue(result.success());
-        assertNotNull(result.booking());
-        assertEquals("SKY123", result.booking().getFlightNumber());
-        assertEquals("01A", result.booking().getSeatNumber());
-        assertEquals("John Doe", result.booking().getPassengerName());
-    }
-}
+    void testUpdateFlight

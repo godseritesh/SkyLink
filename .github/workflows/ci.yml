@@ -75,8 +75,8 @@ jobs:
               }
             }
 
-      - name: Run New Test
-        run: mvn test -Dtest=NewTestSuite
-
-      - name: Run Existing Tests
+      - name: Run Unit Tests
         run: mvn test
+
+      - name: Run Integration Tests
+        run: mvn verify -DskipUnitTests  # assuming integration tests are part of verify phase
